@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcwwa8D1BX5..." crossorigin="anonymous">
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+
+            header {
+                background-color: #333;
+                color: #fff;
+                padding: 10px;
+                text-align: center;
+            }
+
+            nav {
+                background-color: #555;
+                overflow: hidden;
+            }
+
+            nav a {
+                float: left;
+                display: block;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            nav a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .login-btn,
+            .logout-btn {
+                color: #fff;
+                text-decoration: none;
+                padding: 14px 16px;
+                display: inline-block;
+            }
+
+            .login-btn:hover,
+            .logout-btn:hover {
+                background-color: #ddd;
+                color: black;
+            }
+
+            .glyphicon {
+                margin-right: 5px;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <h1>molka bouzaida</h1>
+    </header>
+
+    <nav>
+        <a href="{{ path('home') }}">list formation</a>
+        <a href="{{ path('listeparticipant') }}">list de participant</a>
+
+        {% if app.user %}
+            {# User is authenticated #}
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+                {# User has the "ROLE_ADMIN" role, show "ajouter formation" link #}
+                <a href="{{ path('Ajout_form') }}">ajouter formation</a>
+            {% endif %}
+            <a href="{{ path('add_participant') }}">ajouter participantt</a>
+            <a href="{{ path('security_logout') }}" class="logout-btn"><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+      
+            {# User is not authenticated, show "Login" link #}
+            
+        {% endif %}
+        <a href="{{ path('login') }}" class="login-btn"><span class="glyphicon glyphicon-log-in"></span>Login</a>
+    </nav>
+
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</body>
+</html>

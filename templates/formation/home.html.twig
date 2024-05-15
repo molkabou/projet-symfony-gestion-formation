@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        <div class="container">
+            <h2 style="margin-bottom: 0;">Liste des formations</h2>
+                <div class="text-center">
+                    <table class="table table-bordered table-striped" style="background-color: #ADD8E6;">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Titre</th>
+                                <th>Price</th>
+                                <th>Durée</th>
+                                <th>Begin At</th>
+                                <th>Image</th>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <th>Actions</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for formation in lesformations %}
+                                <tr>
+                                    <td>{{ formation.id }}</td>
+                                    <td>{{ formation.titre | upper }}</td>
+                                    <td>{{ formation.price }}</td>
+                                    <td>{{ formation.duree }}</td>
+                                    <td>{{ formation.beginat | date('d/m/Y') }}</td>
+                                    <td>
+                                        <img src="{{ formation.image }}" class="img-thumbnail" width="100" height="100" alt="Formation Image">
+                                    </td>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <td>
+                                            <a class="btn btn-primary" href="{{ path('edit_user', {'id': formation.id }) }}"
+                                                onclick="return confirm('Are you sure to modify {{ formation.titre }}')">Edit</a>
+                                            <a class="btn btn-secondary" href="{{ path('for_delete', {'id': formation.id }) }}"
+                                                onclick="return confirm('Are you sure to delete {{ formation.titre }}')">Delete</a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="7">Aucun abonné</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
